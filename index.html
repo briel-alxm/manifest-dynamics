@@ -1,600 +1,211 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Structural Integrity for the Substrate — Wendy Briel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Tenor+Sans&display=swap" rel="stylesheet" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Manifest Dynamics is a structural theory of how value emerges, moves through systems, and remains connected to its origin." />
+  <meta name="theme-color" content="#f4efe7" />
+  <title>Manifest Dynamics — Structural Integrity for the Substrate</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --cream: #F5F0E8;
-      --ink: #1C1C1A;
-      --ink-light: #4A4A45;
-      --ink-faint: #9A9A92;
-      --accent: #8B6E52;
-      --accent-light: #C4A882;
-      --rule: #D8D0C4;
+      --paper: #f4efe7;
+      --paper-deep: #e9e0d4;
+      --ink: #25211d;
+      --muted: #746b62;
+      --line: rgba(37, 33, 29, .18);
+      --accent: #385f58;
+      --accent-soft: #d6e0da;
+      --warm: #a97855;
+      --serif: Georgia, 'Times New Roman', serif;
+      --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+      --max: 1180px;
     }
-
+    * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
-    body {
-      background-color: var(--cream);
-      color: var(--ink);
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 300;
-      line-height: 1.8;
-      overflow-x: hidden;
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.65; }
+    a { color: inherit; }
+    .shell { width: min(calc(100% - 48px), var(--max)); margin: 0 auto; }
+    .site-header { border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 10; background: rgba(244,239,231,.92); backdrop-filter: blur(14px); }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { text-decoration: none; font-family: var(--mono); text-transform: uppercase; letter-spacing: .14em; font-size: .72rem; }
+    .nav-links { display: flex; align-items: center; gap: 22px; font-size: .78rem; color: var(--muted); }
+    .nav-links a { text-decoration: none; }
+    .nav-links a:hover { color: var(--ink); }
+    .eyebrow { font: .68rem var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); }
+    .hero { padding: clamp(84px, 13vw, 170px) 0 108px; display: grid; grid-template-columns: 1.06fr .94fr; gap: clamp(48px, 9vw, 130px); align-items: end; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.08; }
+    h1 { font-size: clamp(3.8rem, 8vw, 8rem); letter-spacing: -.055em; margin: 22px 0 28px; max-width: 780px; }
+    h1 em, h2 em { color: var(--accent); font-style: italic; }
+    .hero-dek { max-width: 610px; color: #4d453e; font-size: clamp(1.08rem, 1.7vw, 1.35rem); line-height: 1.65; }
+    .hero-note { border-left: 2px solid var(--warm); padding: 4px 0 4px 26px; color: var(--muted); max-width: 370px; }
+    .hero-note strong { display: block; color: var(--ink); font: .7rem var(--mono); letter-spacing: .13em; text-transform: uppercase; margin-bottom: 12px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 34px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; padding: 12px 18px; border: 1px solid var(--ink); text-decoration: none; font-size: .78rem; letter-spacing: .04em; transition: .2s ease; }
+    .button.primary { background: var(--ink); color: var(--paper); }
+    .button:hover { transform: translateY(-2px); }
+    .section { border-top: 1px solid var(--line); padding: 100px 0; }
+    .section-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(36px, 9vw, 150px); }
+    .section-label { font: .68rem var(--mono); text-transform: uppercase; letter-spacing: .16em; color: var(--muted); }
+    h2 { font-size: clamp(2.8rem, 5.3vw, 5.9rem); letter-spacing: -.05em; margin-bottom: 25px; }
+    h3 { font-size: clamp(1.55rem, 2.5vw, 2.3rem); margin-bottom: 10px; }
+    .lead { font-size: clamp(1.2rem, 2vw, 1.55rem); line-height: 1.45; max-width: 760px; }
+    .copy { max-width: 760px; color: #554c44; }
+    .copy p:last-child { margin-bottom: 0; }
+    .quote { border-left: 2px solid var(--accent); margin: 36px 0 0; padding: 5px 0 5px 24px; font-family: var(--serif); font-size: clamp(1.5rem, 2.8vw, 2.5rem); line-height: 1.24; }
+    .model { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 40px; }
+    .model-card { border: 1px solid var(--line); padding: 22px 18px 20px; min-height: 180px; background: rgba(255,255,255,.16); }
+    .model-card .number { font: .72rem var(--mono); color: var(--warm); }
+    .model-card h3 { margin-top: 28px; font-size: 1.42rem; }
+    .model-card p { font-size: .9rem; color: var(--muted); margin-bottom: 0; }
+    .lag { margin-top: 12px; border-color: var(--warm); background: rgba(169,120,85,.08); }
+    .questions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 40px; }
+    .question { background: var(--paper); padding: 24px; font-family: var(--serif); font-size: 1.25rem; }
+    .concepts { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 38px; }
+    .concept { display: grid; grid-template-columns: 1fr 1.5fr; gap: 26px; background: var(--paper); padding: 27px 25px; }
+    .concept h3 { font-size: 1.5rem; margin-bottom: 5px; }
+    .formal { font: .68rem var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--accent); }
+    .concept p { margin: 0; color: #554c44; }
+    .paper { background: var(--ink); color: var(--paper); padding: 80px 0; }
+    .paper .eyebrow { color: #c9a886; }
+    .paper h2 { max-width: 700px; }
+    .paper .copy { color: #d7cec3; }
+    .paper .button { border-color: var(--paper); }
+    .paper .button.primary { background: var(--paper); color: var(--ink); }
+    .axiom { margin: 46px 0 0; border-top: 1px solid rgba(244,239,231,.3); border-bottom: 1px solid rgba(244,239,231,.3); padding: 26px 0; font-family: var(--serif); font-size: clamp(1.55rem, 3vw, 2.65rem); line-height: 1.22; }
+    footer { padding: 34px 0 52px; font-size: .76rem; color: var(--muted); display: flex; justify-content: space-between; gap: 20px; }
+    footer a { text-decoration: none; }
+    .back-top { color: var(--accent); }
+    @media (max-width: 800px) {
+      .shell { width: min(calc(100% - 32px), var(--max)); }
+      .nav { min-height: 62px; }
+      .nav-links { gap: 12px; font-size: .68rem; }
+      .nav-links a:nth-child(n+3) { display: none; }
+      .hero { grid-template-columns: 1fr; padding-top: 90px; }
+      .section-grid { grid-template-columns: 1fr; gap: 28px; }
+      .model { grid-template-columns: repeat(2, 1fr); }
+      .concept { grid-template-columns: 1fr; gap: 12px; }
+      .questions { grid-template-columns: 1fr; }
+      footer { flex-direction: column; }
     }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 28px 60px;
-      background: rgba(245, 240, 232, 0.94);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.4s;
-    }
-    nav.scrolled { border-bottom-color: var(--rule); }
-
-    .nav-logo {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.16em;
-      color: var(--ink);
-      text-decoration: none;
-      line-height: 1.4;
-    }
-
-    .nav-logo span {
-      display: block;
-      font-size: 9px;
-      letter-spacing: 0.22em;
-      color: var(--ink-faint);
-      margin-top: 2px;
-    }
-
-    .nav-author {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      color: var(--ink-faint);
-      text-transform: lowercase;
-    }
-
-    /* HERO */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 140px 60px 100px;
-      max-width: 860px;
-    }
-
-    .eyebrow {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 48px;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp 0.8s ease forwards 0.2s;
-    }
-
-    .hero-title {
-      font-size: clamp(36px, 5.5vw, 68px);
-      font-weight: 300;
-      line-height: 1.12;
-      letter-spacing: -0.02em;
-      margin-bottom: 20px;
-      opacity: 0;
-      transform: translateY(16px);
-      animation: fadeUp 1s ease forwards 0.4s;
-    }
-
-    .hero-subtitle {
-      font-size: clamp(16px, 2vw, 22px);
-      font-style: italic;
-      color: var(--accent);
-      margin-bottom: 48px;
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeUp 0.9s ease forwards 0.6s;
-    }
-
-    .hero-meta {
-      display: flex;
-      gap: 48px;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp 0.8s ease forwards 0.8s;
-    }
-
-    .meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .meta-label {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.26em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-    }
-
-    .meta-value {
-      font-size: 15px;
-      color: var(--ink-light);
-    }
-
-    /* ABSTRACT */
-    .abstract {
-      padding: 80px 60px;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 60px;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .abstract.visible { opacity: 1; transform: translateY(0); }
-
-    .section-label {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      padding-top: 6px;
-    }
-
-    .abstract-text {
-      font-size: 18px;
-      color: var(--ink-light);
-      line-height: 1.95;
-      font-style: italic;
-    }
-
-    /* SECTIONS */
-    .theory-section {
-      padding: 72px 60px;
-      display: grid;
-      grid-template-columns: 180px 1fr;
-      gap: 60px;
-      border-bottom: 1px solid var(--rule);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .theory-section.visible { opacity: 1; transform: translateY(0); }
-
-    .section-number {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.26em;
-      color: var(--accent-light);
-      padding-top: 8px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .section-num-label {
-      font-size: 9px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-    }
-
-    .section-content h2 {
-      font-size: clamp(22px, 2.8vw, 32px);
-      font-weight: 400;
-      line-height: 1.25;
-      letter-spacing: -0.01em;
-      margin-bottom: 28px;
-      color: var(--ink);
-    }
-    .section-content h2 em { font-style: italic; color: var(--accent); }
-
-    .section-content p {
-      font-size: 17px;
-      color: var(--ink-light);
-      line-height: 1.95;
-      margin-bottom: 20px;
-      max-width: 620px;
-    }
-    .section-content p:last-child { margin-bottom: 0; }
-
-    .section-content p strong {
-      font-weight: 400;
-      color: var(--ink);
-    }
-
-    /* DEFINITION BLOCK */
-    .definition {
-      margin-top: 32px;
-      padding: 28px 32px;
-      border-left: 1px solid var(--accent-light);
-      background: rgba(139, 110, 82, 0.04);
-      max-width: 560px;
-    }
-
-    .definition-term {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 10px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 10px;
-      display: block;
-    }
-
-    .definition p {
-      font-size: 16px;
-      font-style: italic;
-      color: var(--ink-light);
-      line-height: 1.8;
-      margin: 0;
-    }
-
-    /* AXIOM */
-    .axiom-section {
-      padding: 80px 60px;
-      border-bottom: 1px solid var(--rule);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .axiom-section.visible { opacity: 1; transform: translateY(0); }
-
-    .axiom-section blockquote {
-      font-size: clamp(22px, 3vw, 36px);
-      font-weight: 300;
-      font-style: italic;
-      line-height: 1.5;
-      color: var(--ink);
-      letter-spacing: -0.01em;
-      max-width: 720px;
-      margin: 0 auto;
-      text-align: center;
-    }
-
-    .axiom-section cite {
-      display: block;
-      margin-top: 28px;
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-style: normal;
-      text-align: center;
-    }
-
-    /* CONCEPTS TABLE */
-    .concepts {
-      padding: 72px 60px;
-      border-bottom: 1px solid var(--rule);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .concepts.visible { opacity: 1; transform: translateY(0); }
-
-    .concepts-label {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: var(--ink-faint);
-      margin-bottom: 48px;
-      display: block;
-    }
-
-    .concept-row {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 40px;
-      padding: 24px 0;
-      border-bottom: 1px solid var(--rule);
-      align-items: baseline;
-    }
-    .concept-row:first-of-type { border-top: 1px solid var(--rule); }
-
-    .concept-term {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      color: var(--ink);
-    }
-
-    .concept-symbol {
-      font-size: 13px;
-      color: var(--accent-light);
-      margin-left: 8px;
-      font-family: 'Cormorant Garamond', serif;
-      font-style: italic;
-    }
-
-    .concept-def {
-      font-size: 16px;
-      color: var(--ink-light);
-      line-height: 1.7;
-    }
-
-    /* FOOTER */
-    footer {
-      padding: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      opacity: 0;
-      transform: translateY(16px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    footer.visible { opacity: 1; transform: translateY(0); }
-
-    .footer-left p {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      color: var(--ink-faint);
-      line-height: 1.8;
-    }
-
-    .footer-right a {
-      font-family: 'Tenor Sans', sans-serif;
-      font-size: 9px;
-      letter-spacing: 0.2em;
-      text-transform: lowercase;
-      color: var(--ink-faint);
-      text-decoration: none;
-      border-bottom: 1px solid var(--rule);
-      padding-bottom: 2px;
-      transition: color 0.3s, border-color 0.3s;
-    }
-    .footer-right a:hover { color: var(--accent); border-color: var(--accent-light); }
-
-    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: var(--cream); }
-    ::-webkit-scrollbar-thumb { background: var(--accent-light); border-radius: 2px; }
-
-    @media (max-width: 768px) {
-      nav { padding: 24px 28px; }
-      .hero { padding: 130px 28px 80px; }
-      .hero-meta { flex-direction: column; gap: 24px; }
-      .abstract, .theory-section { grid-template-columns: 1fr; gap: 24px; padding: 56px 28px; }
-      .axiom-section, .concepts, footer { padding: 56px 28px; }
-      .concept-row { grid-template-columns: 1fr; gap: 8px; }
-      footer { flex-direction: column; gap: 24px; align-items: flex-start; }
+    @media (max-width: 460px) {
+      h1 { font-size: 3.65rem; }
+      .model { grid-template-columns: 1fr; }
+      .model-card { min-height: auto; }
     }
   </style>
 </head>
-<body>
+<body id="top">
+  <header class="site-header">
+    <div class="shell nav">
+      <a class="brand" href="#top">Manifest Dynamics</a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="#start">Start here</a>
+        <a href="#framework">Framework</a>
+        <a href="#concepts">Concepts</a>
+        <a href="#paper">Working paper</a>
+      </nav>
+    </div>
+  </header>
 
-  <nav id="nav">
-    <a href="/" class="nav-logo">
-      Structural Integrity for the Substrate
-      <span>Theoretical Research · Wendy Briel</span>
-    </a>
-    <span class="nav-author">© 2026 Wendy Briel</span>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <span class="eyebrow">Manifest Dynamics · Working Paper</span>
-    <h1 class="hero-title">Structural Integrity<br />for the Substrate</h1>
-    <p class="hero-subtitle">A Structural Theory of Value Emergence and Stabilization</p>
-    <div class="hero-meta">
-      <div class="meta-item">
-        <span class="meta-label">Author</span>
-        <span class="meta-value">Wendy Briel</span>
+  <main>
+    <section class="shell hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">A structural theory of value emergence and stabilization</div>
+        <h1 id="hero-title">What happens to value <em>after</em> it is created?</h1>
+        <p class="hero-dek">An idea can begin with a person, move through a conversation, enter a system, and eventually become part of the world. But as it travels, its origin can disappear.</p>
+        <div class="actions">
+          <a class="button primary" href="#start">Start with the idea</a>
+          <a class="button" href="#paper">Read the working paper</a>
+        </div>
       </div>
-      <div class="meta-item">
-        <span class="meta-label">Affiliation</span>
-        <span class="meta-value">BrielOS</span>
+      <aside class="hero-note">
+        <strong>Manifest Dynamics</strong>
+        <p>A framework for understanding how value emerges through interaction, how it moves through systems, and how it loses or preserves its connection to the people and conditions that created it.</p>
+      </aside>
+    </section>
+
+    <section class="section" id="start" aria-labelledby="start-title">
+      <div class="shell section-grid">
+        <div><div class="section-label">01 / Start here</div></div>
+        <div class="copy">
+          <h2 id="start-title">Value is not only an output.</h2>
+          <p class="lead">It is also an origin, an intention, a context, and a relationship.</p>
+          <p>Most systems are designed to preserve outputs: the idea, the product, the process, the result. They are much less reliable at preserving the relationship between the output and the origin that made it possible.</p>
+          <p>That creates a recurring pattern. Someone notices or creates something valuable. The value moves through a larger system. The system adopts, repeats, or builds on it. The original source becomes harder to see. The value survives, but the origin does not.</p>
+          <p class="quote">Manifest Dynamics studies what happens when an expression survives but its source does not.</p>
+        </div>
       </div>
-      <div class="meta-item">
-        <span class="meta-label">Published</span>
-        <span class="meta-value">February 2026</span>
+    </section>
+
+    <section class="section" id="framework" aria-labelledby="framework-title">
+      <div class="shell section-grid">
+        <div><div class="section-label">02 / The framework</div></div>
+        <div>
+          <h2 id="framework-title">A map of movement, friction, and connection.</h2>
+          <p class="lead">The framework follows value from its origin into the world—and asks what helps it remain coherent along the way.</p>
+          <div class="model" aria-label="Five core conditions in Manifest Dynamics">
+            <article class="model-card"><div class="number">01</div><h3>Origin</h3><p>Where an insight, intention, or creative impulse begins.</p></article>
+            <article class="model-card"><div class="number">02</div><h3>Agency</h3><p>The capacity to move an origin into expression.</p></article>
+            <article class="model-card"><div class="number">03</div><h3>Friction</h3><p>The forces that resist or distort movement.</p></article>
+            <article class="model-card"><div class="number">04</div><h3>Closure</h3><p>What reconnects an expression to its origin.</p></article>
+          </div>
+          <article class="model-card lag"><div class="number">05 / The failure state</div><h3>Attribution Lag</h3><p>The delay between value being used and its source being recognized. When that delay becomes structural, insight can become orphaned.</p></article>
+        </div>
       </div>
-      <div class="meta-item">
-        <span class="meta-label">Version</span>
-        <span class="meta-value">1.0</span>
+    </section>
+
+    <section class="section" aria-labelledby="matters-title">
+      <div class="shell section-grid">
+        <div><div class="section-label">03 / Why it matters</div></div>
+        <div>
+          <h2 id="matters-title">The questions behind the model.</h2>
+          <p class="copy">Manifest Dynamics can be used to examine individual experience, creative work, organizations, artificial intelligence, authorship, and the systems that carry ideas from one person to many.</p>
+          <div class="questions">
+            <div class="question">Why do some people work hard without gaining meaningful traction?</div>
+            <div class="question">Why do systems absorb ideas without preserving authorship?</div>
+            <div class="question">How does AI change the relationship between origin, expression, and attribution?</div>
+            <div class="question">What allows an idea to scale without losing its source or purpose?</div>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ABSTRACT -->
-  <div class="abstract" id="abstract">
-    <span class="section-label">Abstract</span>
-    <p class="abstract-text">
-      This paper proposes Manifest Dynamics, a structural framework describing how value emerges, diffuses, and stabilizes within complex systems. The model departs from computational or optimization-based accounts by treating value as an emergent property of interaction between an originating agent and a field of constraint. Core concepts including Origin, Agency, Signal Emergence, and Attribution Lag explain why value frequently decays after creation — and how it may be preserved through intentional binding mechanisms.
-    </p>
-  </div>
-
-  <!-- SECTION 1 -->
-  <div class="theory-section" id="s1">
-    <div class="section-number">
-      <span>01</span>
-      <span class="section-num-label">Law of Manifestation</span>
-    </div>
-    <div class="section-content">
-      <h2>Value does not resolve through computation.<br /><em>It manifests through interaction.</em></h2>
-      <p>Every interaction between an originating agent and a field of potential produces a new state. An Origin and its Expression form an inseparable pair, and value emerges as a relational outcome rather than an isolated object.</p>
-      <p>This departure from optimization-based models is foundational. Value is not computed — it is <strong>manifested</strong>. The interaction itself is the generative event.</p>
-    </div>
-  </div>
-
-  <!-- SECTION 2 -->
-  <div class="theory-section" id="s2">
-    <div class="section-number">
-      <span>02</span>
-      <span class="section-num-label">The Substrate</span>
-    </div>
-    <div class="section-content">
-      <h2>Reality as a high-dimensional field<br /><em>of potential and friction.</em></h2>
-      <p>Reality may be modeled as a high-dimensional Substrate (𝔽) containing all possible states. This Substrate possesses inherent Friction — structural, social, economic, and cognitive constraints that resist movement.</p>
-      <p>Agents function as vectors navigating this textured field along constrained trajectories. The path traced through the Substrate is not random. It is shaped by the continuous interaction between the agent's coherence and the field's friction.</p>
-      <div class="definition">
-        <span class="definition-term">Substrate (𝔽)</span>
-        <p>The ontological field — the total space of all possible informational configurations and states through which agents move.</p>
+    <section class="section" id="concepts" aria-labelledby="concepts-title">
+      <div class="shell section-grid">
+        <div><div class="section-label">04 / Core concepts</div></div>
+        <div>
+          <h2 id="concepts-title">The formal terms, translated.</h2>
+          <p class="copy">The theory uses precise language, but readers should not need to master the vocabulary before understanding the human problem. Each concept begins here in plain language.</p>
+          <div class="concepts">
+            <article class="concept"><div><div class="formal">Origin & agency</div><h3>Where meaningful action begins</h3></div><p>An origin is the deeper pattern of clarity or intention from which meaningful action begins. Agency is the ability to move that intention into the world. Agency is not only effort; it is effort with direction.</p></article>
+            <article class="concept"><div><div class="formal">Substrate & friction</div><h3>The conditions around movement</h3></div><p>Every person and organization moves through a world full of possibilities and resistance. Some resistance is internal. Some is social, economic, technical, institutional, or historical.</p></article>
+            <article class="concept"><div><div class="formal">Signal emergence</div><h3>When an origin becomes an expression</h3></div><p>An idea, product, decision, or creative work is not just an object. It is an expression of a particular origin, context, intention, and process.</p></article>
+            <article class="concept"><div><div class="formal">Attribution lag</div><h3>When recognition arrives late</h3></div><p>Systems often recognize value after they have already absorbed it. The idea is adopted first; the source is identified later, partially, or not at all.</p></article>
+            <article class="concept"><div><div class="formal">Foundational insight orphaning</div><h3>When the idea survives but the source disappears</h3></div><p>An idea can become part of the world while the person who first carried it is forgotten. The system benefits from the insight, but the relationship between the insight and its origin is not resolved.</p></article>
+            <article class="concept"><div><div class="formal">Closure & stabilization</div><h3>What keeps value connected</h3></div><p>Closure occurs when a system preserves the relationship between what was created and where it came from. It can take the form of authorship, credit, compensation, legal protection, provenance, documentation, or community.</p></article>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <!-- SECTION 3 -->
-  <div class="theory-section" id="s3">
-    <div class="section-number">
-      <span>03</span>
-      <span class="section-num-label">Origin & Agency</span>
-    </div>
-    <div class="section-content">
-      <h2>Origin as attractor.<br /><em>Agency as directional force.</em></h2>
-      <p>Each agent possesses an Origin (x₀), defined as a stable attractor state of harmonic resonance rather than a biographical identity. It is the state of maximal clarity and absolute coherence — the signal at its purest.</p>
-      <p>Agency (T) is the application of directional energy to overcome Substrate Friction. Its effectiveness is proportional to Coherence (C) — the alignment between action and Origin. <strong>Effort fails not due to insufficiency, but misalignment.</strong></p>
-      <div class="definition">
-        <span class="definition-term">Local Agency Gradient (LAG)</span>
-        <p>A variable describing the real choice available in a given state. High LAG represents low internal friction and high viability of options — the condition under which coherent movement becomes possible.</p>
+    <section class="paper" id="paper" aria-labelledby="paper-title">
+      <div class="shell section-grid">
+        <div><div class="eyebrow">05 / The formal layer</div></div>
+        <div>
+          <h2 id="paper-title">Structural Integrity <em>for the Substrate</em></h2>
+          <div class="copy"><p class="lead">A Structural Theory of Value Emergence and Stabilization</p><p>The working paper develops the model’s notation, relationships, and propositions in full. Begin with the reader-friendly framework above, then enter the formal language when you are ready.</p></div>
+          <div class="actions"><a class="button primary" href="#top">Return to the framework</a></div>
+          <div class="axiom">“Attribution precedes scale. A system only achieves true coherence when authorship remains traceable across every level of the substrate.”<br><small>— The BrielOS Axiom · Wendy Briel · 2026</small></div>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </main>
 
-  <!-- SECTION 4 -->
-  <div class="theory-section" id="s4">
-    <div class="section-number">
-      <span>04</span>
-      <span class="section-num-label">Signal Emergence</span>
-    </div>
-    <div class="section-content">
-      <h2>Signal as expression<br /><em>inseparable from its origin.</em></h2>
-      <p>When coherent Agency is applied in alignment with Origin, a new Signal may emerge. A Signal is not standalone — it is the Expression paired with its Originator.</p>
-      <p>Separating the Expression from its Origin reduces coherence and degrades value. This inseparability is not incidental. It is the structural condition under which value maintains integrity across scale.</p>
-    </div>
-  </div>
-
-  <!-- SECTION 5 -->
-  <div class="theory-section" id="s5">
-    <div class="section-number">
-      <span>05</span>
-      <span class="section-num-label">Attribution Lag</span>
-    </div>
-    <div class="section-content">
-      <h2>The structural delay between<br /><em>signal emergence and recognition.</em></h2>
-      <p>Attribution Lag (ΔT) arises from systemic bias toward efficiency over attribution. Large systems reduce transaction costs by treating Signals as context-free objects, severing their link to Origin.</p>
-      <p>This structural inertia causes value to diffuse after creation. The insight survives. The system absorbs it. But the binding between idea and origin dissolves in the friction of scale — producing what this framework terms <strong>Foundational Insight Orphaning.</strong></p>
-      <div class="definition">
-        <span class="definition-term">Foundational Insight Orphaning</span>
-        <p>The condition in which insight survives, compounds, and becomes infrastructure while its source remains unacknowledged or uncompensated. Progress occurs without resolution.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 6 -->
-  <div class="theory-section" id="s6">
-    <div class="section-number">
-      <span>06</span>
-      <span class="section-num-label">Closure & Stabilization</span>
-    </div>
-    <div class="section-content">
-      <h2>Value stabilizes only<br /><em>when closure is achieved.</em></h2>
-      <p>Closure is achieved through binding mechanisms that link Expression back to Origin. These mechanisms may be systemic — legal, cryptographic — or social: brand, style, community, lineage.</p>
-      <p>Closure counteracts Attribution Lag and enables value to scale without dilution. A timeline stabilizes only when the signal is bound to its origin at the point of adoption. <strong>Authorship must remain traceable across scale.</strong></p>
-      <p>A timeline is not complete if the signal survives but the source does not.</p>
-    </div>
-  </div>
-
-  <!-- AXIOM -->
-  <div class="axiom-section" id="axiom">
-    <blockquote>
-      "Attribution precedes scale. A system only achieves true coherence when authorship remains traceable across every level of the substrate."
-    </blockquote>
-    <cite>The BrielOS Axiom · Wendy Briel · 2026</cite>
-  </div>
-
-  <!-- CORE CONCEPTS -->
-  <div class="concepts" id="concepts">
-    <span class="concepts-label">Core Concepts & Notation</span>
-
-    <div class="concept-row">
-      <span class="concept-term">Substrate <span class="concept-symbol">𝔽</span></span>
-      <span class="concept-def">Ontological field; the total space of all possible configurations and states.</span>
-    </div>
-    <div class="concept-row">
-      <span class="concept-term">Individual <span class="concept-symbol">x</span></span>
-      <span class="concept-def">One point (vector) in the substrate; the lived, evolving state of an agent.</span>
-    </div>
-    <div class="concept-row">
-      <span class="concept-term">Origin <span class="concept-symbol">x₀</span></span>
-      <span class="concept-def">State of pure signal, maximal clarity, and absolute coherence. Central attractor.</span>
-    </div>
-    <div class="concept-row">
-      <span class="concept-term">Coherence <span class="concept-symbol">C(x)</span></span>
-      <span class="concept-def">Degree of alignment with origin. Measured as proximity: −d(x, x₀).</span>
-    </div>
-    <div class="concept-row">
-      <span class="concept-term">Agency <span class="concept-symbol">T</span></span>
-      <span class="concept-def">Power to shift position in the substrate via choice, focus, value, and input.</span>
-    </div>
-    <div class="concept-row">
-      <span class="concept-term">Local Agency Gradient <span class="concept-symbol">LAG</span></span>
-      <span class="concept-def">Real choice available in a given state. High LAG = low friction, high option viability.</span>
-    </div>
-    <div class="concept-row">
-      <span class="concept-term">Attribution Lag <span class="concept-symbol">ΔT</span></span>
-      <span class="concept-def">Structural delay between signal emergence and system recognition of its source.</span>
-    </div>
-    <div class="concept-row">
-      <span class="concept-term">Closure</span>
-      <span class="concept-def">The binding of Expression to Origin through systemic or social mechanisms. Stabilizes value.</span>
-    </div>
-  </div>
-
-  <!-- FOOTER -->
-  <footer id="footer">
-    <div class="footer-left">
-      <p>Structural Integrity for the Substrate</p>
-      <p>Wendy Briel · BrielOS · February 2026</p>
-      <p>© 2026 Wendy Briel. All rights reserved.</p>
-    </div>
-    <div class="footer-right">
-      <a href="https://brielos-website-clean.vercel.app" target="_blank">BrielOS — Decision Architecture →</a>
-    </div>
+  <footer class="shell">
+    <div>Manifest Dynamics · Wendy Briel · BrielOS · 2026</div>
+    <a class="back-top" href="#top">Back to top ↑</a>
   </footer>
-
-  <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 40);
-    });
-
-    const revealEls = document.querySelectorAll('.abstract, .theory-section, .axiom-section, .concepts, footer');
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08 });
-    revealEls.forEach(el => observer.observe(el));
-  </script>
 </body>
 </html>
